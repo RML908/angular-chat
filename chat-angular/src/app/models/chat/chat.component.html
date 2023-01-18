@@ -1,0 +1,11 @@
+<!--<router-outlet></router-outlet>-->
+
+<div *ngFor="let message of messageList">
+  <li>
+    {{message}}
+  </li>
+
+
+  <input [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13  && sendMessage()"/>
+  <button (click)="sendMessage()">Send message</button>
+</div>

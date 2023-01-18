@@ -4,116 +4,26 @@
       "name": "newuser",
       "email": "new.user@hotmail.com",
       "password": "12345",
-      "id": 5
+      "id": 1
     },
     {
       "name": "user",
       "email": "user.mail@yahoo.com",
       "password": "123456",
-      "id": 6
+      "id": 2
     }
   ],
   "channels": [
     {
-      "name": "Samsung m 40 a ",
-      "price": "550",
-      "category": "mobile",
-      "color": "white",
-      "description": "this is a Samsung product",
-      "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSOO1JDPUNwcPiqzHYhaL_zpJA0Ymlr6mD9sSgTPad_JYdrk-o",
-      "quantity": 1,
-      "productId": 1,
+      "name": "Levies Jeans",
       "userId": 3,
-      "id": 7
+      "ChannelId": 7
     },
     {
       "name": "Levies Jeans",
-      "price": "5000",
-      "category": "Jeans",
-      "color": "blue",
-      "description": "Confirmable jeans for man ",
-      "image": "https://www.filmibeat.com/wimg/desktop/2012/12/13548612746596.jpg",
-      "quantity": 1,
-      "productId": 5,
       "userId": 3,
-      "id": 8
-    },
-    {
-      "name": "I phone 14",
-      "price": "100000",
-      "category": "mobile",
-      "color": "hsl(127, 28%, 58%)",
-      "description": "An Apple Product",
-      "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSOO1JDPUNwcPiqzHYhaL_zpJA0Ymlr6mD9sSgTPad_JYdrk-o",
-      "id": 2
-    },
-    {
-      "name": "HP Laptop",
-      "price": "50000",
-      "category": "Laptop",
-      "color": "black",
-      "description": "Hp laptop for student and professionals",
-      "image": "https://www.91-cdn.com/hub/wp-content/uploads/2022/07/Top-laptop-brands-in-India.jpg",
-      "id": 3
-    },
-    {
-      "name": "Nike Shoes",
-      "price": "3000",
-      "category": "Shoes",
-      "color": "Black",
-      "description": "Best shoes for Running",
-      "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/1eeaacc0-e07c-4024-a5f7-57f2fd23e8a2/air-max-270-g-golf-shoe-Z6vCfs.png",
-      "id": 4
-    },
-    {
-      "name": "Samsung m 40 a ",
-      "price": "550",
-      "category": "mobile",
-      "color": "white",
-      "description": "this is a Samsung product",
-      "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSOO1JDPUNwcPiqzHYhaL_zpJA0Ymlr6mD9sSgTPad_JYdrk-o",
-      "id": 1
-    },
-    {
-      "name": "White Gold Plated",
-      "price": 9.99,
-      "color": "white",
-      "short_description": "Classic Created Wedding Engagement",
-      "description": "Classic Created Wedding Engagement Solitaire Diamond Promise Ring for Her. Gifts to spoil your love more for Engagement, Wedding, Anniversary, Valentine's Day...",
-      "category": "jewelery",
-      "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg",
-      "quantity": 1,
-      "total": 9.99,
-      "userId": 6,
-      "id": 14
-    },
-    {
-      "name": "Mens Cotton Jacket",
-      "price": 55.99,
-      "color": "white",
-      "short_description": "great outerwear jackets for Spring/Autumn/Winter",
-      "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
-      "category": "fashion",
-      "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
-      "quantity": 1,
-      "total": 55.99,
-      "productId": 3,
-      "userId": 16,
-      "id": 15
-    },
-    {
-      "name": "Mens Casual Slim Fit",
-      "price": 15.99,
-      "color": "white",
-      "short_description": "The color could be slightly different between on the screen and in practice",
-      "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
-      "category": "fashion",
-      "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
-      "quantity": 1,
-      "total": 15.99,
-      "productId": 4,
-      "userId": 16,
-      "id": 16
+      "ChannelId": 8
     }
+
   ]
 }

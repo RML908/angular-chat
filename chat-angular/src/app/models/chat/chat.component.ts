@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {ChatService} from "../services/chat.service";
+import {ChatService} from "../../services/chat.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css']
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
 
-  newMessage: string | undefined;
+  newMessage?: string;
   messageList: string[] =[]
 
-  constructor( private chatService: ChatService) {
+  constructor( private chatService: ChatService,
+               private userService: UserService
+               ) {
 
   }
 
@@ -20,6 +23,7 @@ export class ChatComponent implements OnInit {
       this.messageList.push(message);
 
     });
+    console.log("users",this.userService.users);
   }
  sendMessage(){
     this.chatService.sendMessage(this.newMessage);
