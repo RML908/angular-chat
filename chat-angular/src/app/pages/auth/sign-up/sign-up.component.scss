@@ -1,4 +1,4 @@
-@import '../../../../global-styles/variables.scss';
+@import '../../../../global-styles/variables';
 
 
 .conatainer {
@@ -19,6 +19,10 @@ h2 {
   padding: 1em 2em;
 }
 
-.name-wrapper{
-  margin: 5px;
+.first-name{
+  margin-right: 5px;
+}
+
+.last-name{
+  margin-left: 5px;
 }
