@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {User} from "stream-chat";
+import {Member} from "../../../models/member";
+import {UserService} from "../../../services/user.service";
+
 
 @Component({
   selector: 'app-sign-up',
@@ -8,9 +12,12 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class SignUpComponent implements OnInit {
   signupForm!: FormGroup;
+  constructor(private fb: FormBuilder,
+              private member:UserService
 
-  constructor(private fb: FormBuilder) {
+  ) {
     this.createForm()
+
   }
 
    createForm(): void{
@@ -20,7 +27,9 @@ export class SignUpComponent implements OnInit {
     })
    }
 
-   submit(): void {
+   submit(data:any) {
+     console.log("submit",data);
+     this.member.usersignUp(data)
     const {firstName, lastName } = this.signupForm.value
      console.warn(`First Name: ${firstName}, Last Name : ${lastName}`)
    }
