@@ -1,16 +1,12 @@
 {
   "users": [
     {
-      "name": "newuser",
-      "email": "new.user@hotmail.com",
-      "password": "12345",
-      "id": 1
+      "firstName": "Hamlet",
+      "lastName": "Hambardzumyan"
     },
     {
-      "name": "user",
-      "email": "user.mail@yahoo.com",
-      "password": "123456",
-      "id": 2
+      "firstName": "Iskander",
+      "lastName": "Hakobyan"
     }
   ],
   "channels": [

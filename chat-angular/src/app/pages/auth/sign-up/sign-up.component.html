@@ -1,9 +1,8 @@
-<app-navbar></app-navbar>
 <!-- Emmet Command used: div.container.d-flex.justify-content-center.align-items-center -->
 <div class="container-wrapper container d-flex justify-content-center align-items-center">
   <div class="form-wrapper text-center">
     <h2 class="text-center">Sign Up</h2>
-    <form [formGroup]="signupForm" (submit)="submit()" novalidate>
+    <form [formGroup]="signupForm" (submit)="submit(signupForm.value)" novalidate>
 
       <!-- Name Wrapper -->
       <div class="name-wrapper d-flex flex-row">

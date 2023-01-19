@@ -1,25 +1,34 @@
-<app-navbar></app-navbar>
-<!-- Emmet Command used: div.container.d-flex.justify-content-center.align-items-center -->
+  <!-- Emmet Command used: div.container.d-flex.justify-content-center.align-items-center -->
 <div class="container-wrapper container d-flex justify-content-center align-items-center">
   <div class="form-wrapper text-center">
     <h2 class="text-center">Login</h2>
-    <form [formGroup]="loginForm" (submit)="submit()" novalidate>
+    <form [formGroup]="loginForm" (submit)="submit(loginForm.value)" novalidate>
 
       <div class="form-group">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
             <span class="input-group-text" id="basic-addon1">Username</span>
           </div>
-          <input type="email" class="form-control" id="email-input" placeholder="Enter first name" formControlName="firstName">
+          <input
+            id="email-input"
+            type="email"
+            class="form-control"
+            placeholder="Enter first name"
+            formControlName="firstName">
         </div>
       </div>
 
       <div class="form-group">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Lastname</span>
+            <span class="input-group-text" id="basic-addon-1">Lastname</span>
           </div>
-          <input type="password" class="form-control" id="lastName-input" placeholder="Enter last name" formControlName="lastName">
+          <input
+            type="password"
+            class="form-control"
+            id="lastName-input"
+            placeholder="Enter last name"
+            formControlName="lastName">
         </div>
       </div>
 
