@@ -6,6 +6,8 @@ import { ChatComponent } from './pages/chat/chat.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared-components/shared.module";
+import {HttpClientInMemoryWebApiModule} from "angular-in-memory-web-api";
+import {InMemoryDataService} from "./services/in-memory-data.service";
 
 @NgModule({
   declarations: [
@@ -17,7 +19,10 @@ import {SharedModule} from "./shared-components/shared.module";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]

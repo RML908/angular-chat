@@ -2,7 +2,7 @@
 <div class="container-wrapper container d-flex justify-content-center align-items-center">
   <div class="form-wrapper text-center">
     <h2 class="text-center">Login</h2>
-    <form [formGroup]="loginForm" (submit)="submit(loginForm.value)" novalidate>
+    <form [formGroup]="loginForm" (submit)="onSubmit()" novalidate>
 
       <div class="form-group">
         <div class="input-group mb-3">

@@ -1,11 +1,86 @@
-<!--<router-outlet></router-outlet>-->
+<div class="container-fluid" *ngIf="!showScreen">
 
-<div *ngFor="let message of messageList">
-  <li>
-    {{message}}
-  </li>
+  <div class="row">
 
+    <div class="col-md-4">
 
-  <input [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13  && sendMessage()"/>
-  <button (click)="sendMessage()">Send message</button>
+      <div class="user-list-card">
+        <div class="user-card"
+             [ngClass]="user?.firstName ? selectedUser?.firstName && 'active': ''"
+             *ngFor="let user of users"
+             (click)="selectUserHandler(user.firstName)"
+        >
+
+          <img [src]="user?.image"
+               [alt]="user?.firstName"
+               class="avatar"
+          />
+          <p class="username">{{user?.firstName}}</p>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-8">
+
+      <div class="chat-container">
+        <ng-container *ngIf="selectedUser">
+          <div class="chat-header">
+
+            <img [src]="selectedUser?.image"
+                 [alt]="selectedUser?.firstName"
+                 class="avatar"
+            />
+            <p class="username">{{selectedUser?.firstName}}</p>
+
+          </div>
+
+          <div class="chat-body">
+            <div *ngFor="let item of messageArray"
+                 [ngClass]="item?.user ? currentUser?.firstName && 'same-user':''"
+            >
+              <p class="message-container">{{item?.message}}</p>
+            </div>
+          </div>
+
+          <div class="chat-footer">
+
+            <div class="row">
+              <div class="col-md-10">
+                <div class="form-group mb-0">
+                  <input type="text"
+                         placeholder="Type a message"
+                         class="form-control"
+                         [(ngModel)]="messageArray[0]"
+                         (keyup)="$event.keyCode === 13 && sendMessage()"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-2 text-center align-self-center">
+                <button class="btn btn-primary btn-sm px-3"
+                        (click)="sendMessage()">Send
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </ng-container>
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
+<!--<div *ngFor="let message of messageArray">-->
+<!--  <li>-->
+<!--    {{message}}-->
+
+<!--  </li>-->
+<!--&lt;!&ndash;<pre>{{message | json}}</pre>&ndash;&gt;-->
+<!--  <input [(ngModel)]="newMessage" (keyup.enter)="keyUp($event)" autofocus/>-->
+<!--  <div class ="container-button">-->
+<!--    <button type ="button" class="btn-success" (click)="sendMessage()">Send message</button>-->
+<!--  </div>-->
+<!--</div>-->

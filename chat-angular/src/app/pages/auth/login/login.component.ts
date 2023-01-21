@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Member} from "../../../models/member";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
+import  {users, channels} from "../../../../assets/data" ;
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-login',
@@ -11,34 +13,41 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-  loginForm!: FormGroup;
+   loginForm!: FormGroup;
+   users:Member[] = []
 
   constructor(
               private fb: FormBuilder,
-              private user: UserService,
+              private userService: UserService,
               private route:Router
               ) {
-    this.createForm()
   }
 
-   createForm(): void {
-    this.loginForm = this.fb.group({
-      firstName:['', Validators.required],
-      lastName:['', Validators.required]
-    })
-   }
+    getUsers(){
+    this.userService.getUsers()
+      .subscribe(users => this.users = users)
+    }
+   get form(){return this.loginForm.controls}
 
-   submit(data:Member): void {
-    this.user.userLogin(data)
-     // if(data){
-     //   this.route.navigate(['/'])
-     // }
-    const{firstName, lastName} = this.loginForm.value
-     console.log(`FirstName: ${firstName}, lasName: ${lastName}`);
-   }
+    onSubmit(){
+    if(this.loginForm.invalid){
+      return;
+    }
+    this.userService.login(this.form['firstName'].value, this.form['lastName'].value)
+      .pipe(first()).subscribe( data =>{this.route.navigate(['/chat'])
+      }, error =>  {
+      console.log(error);
+    })
+    }
 
 
   ngOnInit(): void {
+    this.loginForm = this.fb.group({
+         firstName:['', Validators.required],
+         lastName:['', Validators.required]
+       })
+
+
   }
 
 
