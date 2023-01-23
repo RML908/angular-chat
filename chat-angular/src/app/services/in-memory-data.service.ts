@@ -7,7 +7,7 @@ import {Member} from "../models/member";
 })
 export class InMemoryDataService implements InMemoryDbService{
  createDb() {
-   const users = [
+   const users: any  =[
      [
        {
          id: 1,
@@ -54,7 +54,7 @@ export class InMemoryDataService implements InMemoryDbService{
          }
        }
      ]
-   ]
+ ]
     return {users};
   }
 genId(users: Member[]):number{

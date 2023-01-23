@@ -2,47 +2,47 @@
 export const users: any = [
   [
     {
-      id: 1,
-      firstName: "Bill",
+      "id": 1,
+      "firstName": "Bill",
       "lastName": "White",
       "image": "assets/users/bill.png",
-        roomId: {
-         2: "room-1",
-         3: "room-2",
-         4: "room-3"
+        "roomId": {
+         "2": "room-1",
+         "3": "room-2",
+         "4": "room-3"
       }
     },
     {
-      id: 2,
-      firstName: "John",
+      "id": 2,
+      "firstName": "John",
       "lastName": "Red",
       "image": "assets/users/John.png",
-       roomId: {
-         1: "room-1",
-         3: "room-4",
-         4: "room-5"
+       "roomId": {
+         "1": "room-1",
+         "3": "room-4",
+         "4": "room-5"
       }
     },
     {
-      id: 3,
-      firstName: "Albert",
+      "id": 3,
+      "firstName": "Albert",
       "lastName": "Black",
       "image": "assets/users/Albert.png",
-       roomId: {
-         1: "room-2",
-         2: "room-4",
-         4: "room-6"
+       "roomId": {
+         "1": "room-2",
+         "2": "room-4",
+         "4": "room-6"
       }
     },
     {
-      id: 4,
-      firstName: "Steve",
+      "id": 4,
+      "firstName": "Steve",
       "lastName": "Brown",
       "image": "assets/users/Steve.png",
-       roomId: {
-         1: "room-3",
-         2: "room-5",
-         3: "room-6"
+       "roomId": {
+         "1": "room-3",
+         "2": "room-5",
+         "3": "room-6"
       }
     }
   ]

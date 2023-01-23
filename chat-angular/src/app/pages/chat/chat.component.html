@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf="!showScreen">
+<div class="container-fluid">
 
   <div class="row">
 
@@ -6,11 +6,10 @@
 
       <div class="user-list-card">
         <div class="user-card"
-             [ngClass]="user?.firstName ? selectedUser?.firstName && 'active': ''"
+             [ngClass]="user?.firstName ? selectedUser?.phone && 'active': ''"
              *ngFor="let user of users"
-             (click)="selectUserHandler(user.firstName)"
+             (click)="selectUserHandler(user?.firstName)"
         >
-
           <img [src]="user?.image"
                [alt]="user?.firstName"
                class="avatar"
@@ -28,16 +27,16 @@
           <div class="chat-header">
 
             <img [src]="selectedUser?.image"
-                 [alt]="selectedUser?.firstName"
+                 [alt]="selectedUser?.name"
                  class="avatar"
             />
-            <p class="username">{{selectedUser?.firstName}}</p>
+            <p class="username">{{selectedUser?.name}}</p>
 
           </div>
 
           <div class="chat-body">
             <div *ngFor="let item of messageArray"
-                 [ngClass]="item?.user ? currentUser?.firstName && 'same-user':''"
+                 [ngClass]="item?.user ? logedUser?.firstName && 'same-user':'' "
             >
               <p class="message-container">{{item?.message}}</p>
             </div>
@@ -51,7 +50,7 @@
                   <input type="text"
                          placeholder="Type a message"
                          class="form-control"
-                         [(ngModel)]="messageArray[0]"
+                         [(ngModel)]="newMessage"
                          (keyup)="$event.keyCode === 13 && sendMessage()"
                   />
                 </div>
