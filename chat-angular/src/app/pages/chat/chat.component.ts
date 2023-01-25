@@ -1,10 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ChatService} from "../../services/chat.service";
 import {UserService} from "../../services/user.service";
-import {Member} from "../../models/member";
-import {Observable, Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {first} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
+import { users}  from 'src/assets/data';
 
 @Component({
   selector: 'app-chat',
@@ -12,26 +10,32 @@ import {first} from "rxjs/operators";
   styleUrls: ['./chat.component.scss']
 })
 
-export class ChatComponent implements OnInit {
-  roomId?: any | string ;
+export class ChatComponent implements OnInit, AfterViewInit {
+  roomId:any = []   ;
   newMessage: string ='';
-  messageArray:{user: string, message: string}[] = []
+  messageArray: { user:string, message:string }[] = []
   storageArray:any[''] = '';
-  users: Member[] =[];
-  id:any
-  currentUser: Subscription ;
-  selectedUser?:any | string;
+  users$: any= {};
+  selectedUser:any;
+  id:any;
+  @Input()currentUser: any ;
+  currentUserId: any;
   logedUser:any;
+  messageText: string = '';
 
 
   constructor( private chatService: ChatService,
                private userService: UserService,
-               private route: ActivatedRoute
-               ) { this.currentUser = new Subscription;
-
+               private route: ActivatedRoute,
+               )
+  {
+     // this.users$ = users
   }
 
   ngOnInit(): void {
+    this.users$ = users
+    this.currentUser = history.state.data
+
     this.chatService.getNewMessage().subscribe(
       (
       data:{
@@ -49,132 +53,130 @@ export class ChatComponent implements OnInit {
       // this.messageList.push(message);
         }
       });
-    this.getUsers()
     this.getUsername()
   }
-  public userList =
-    [
-      {
-        "id": 1,
-        "firstName": "Bill",
-        "lastName": "White",
-        "image": "assets/users/Bill.png",
-        "roomId": {
-          "2": "room-1",
-          "3": "room-2",
-          "4": "room-3"
-        }
-      },
-      {
-        "id": 2,
-        "firstName": "John",
-        "lastName": "Red",
-        "image": "assets/users/John.png",
-        "roomId": {
-          "1": "room-1",
-          "3": "room-4",
-          "4": "room-5"
-        }
-      },
-      {
-        "id": 3,
-        "firstName": "Albert",
-        "lastName": "Black",
-        "image": "assets/users/Albert.png",
-        "roomId": {
-          "1": "room-2",
-          "2": "room-4",
-          "4": "room-6"
-        }
-      },
-      {
-        "id": 4,
-        "firstName": "Steve",
-        "lastName": "Brown",
-        "image": "assets/users/Steve.png",
-        "roomId": {
-          "1": "room-3",
-          "2": "room-5",
-          "3": "room-6"
-        }
-      }
-    ]
+
+
+  ngAfterViewInit(){
+
+  }
   getUsername() {
-    return JSON.parse(localStorage.getItem('currentUser')!).firstName;
+    return JSON.parse(localStorage.getItem('currentUser')!);
   }
 
-  getUsers(){
-    this.userService.getUsers().subscribe(data =>{
-      this.users = data[0]
-    })
 
-
+  returnUsers(){
+    for(let i=0; i<this.users$.length; i++){
+      return this.users$ = this.users$[i]
+    }
   }
 
-  selectUserHandler(firstName?:string){
-    console.log(firstName);
-    this.selectedUser = this.userList.find(user =>
-      user.firstName  == firstName);
-    this.roomId = this.selectedUser?.roomId[this.logedUser.firstName];
-    console.log(this.roomId);
+  // getUsers(){
+  //   this.userService.getUsers().subscribe(data =>{
+  //     this.users = data[0]
+  //     console.log(this.users);
+  //   })
+  //
+  //
+  // }
+
+  selectUserHandler(id:any){
+    this.selectedUser = this.users$.filter((user: { id: any; }) => user.id === id);
+    console.log(this.selectedUser);
+    console.log(this.selectedUser);
+    console.log(typeof this.roomId);
+    this.roomId = this.selectedUser[0]?.roomId[this.currentUser.id];
+
     this.messageArray = [];
 
     this.storageArray = this.chatService.getStorage();
+    console.log(this.storageArray);
     const storeIndex = this.storageArray
       .findIndex((storage:any) => storage.roomId === this.roomId);
+    console.log(storeIndex);
     if(storeIndex > -1) {
       this.messageArray = this.storageArray[storeIndex].chats;
+      console.log(this.messageArray);
     }
-    this.join(this.logedUser.firstName, this.roomId);
+    this.join(this.currentUser.firstName, this.roomId);
   }
 
-  join(username: string, roomId: string): void {
-    this.chatService.joinRoom({user: username, room: roomId})
+  join(username:string, roomId:any ):void{
+    this.chatService.joinRoom({user:username , room:roomId});
   }
+
+  // sendMessage(message: string, clientId:string): void {
+  //   this.socketService.sendMessage(message, clientId)
+  //
+  //
+  //   this.storageArray = this.chatService.getStorage();
+  //   const storeIndex = this.storageArray
+  //     .findIndex((storage: { roomId: any; }) => storage.roomId === this.roomId);
+  //
+  //   if (storeIndex > -1) {
+  //     this.storageArray[storeIndex].chats.push({
+  //       user: this.logedUser.firstName,
+  //       message: this.newMessage
+  //     });
+  //   } else {
+  //     const updateStorage = {
+  //       roomId: this.roomId,
+  //       chats: [{
+  //         user: this.logedUser.firstName,
+  //         message: this.newMessage
+  //       }]
+  //     };
+  //
+  //     this.storageArray.push(updateStorage);
+  //   }
+  //
+  //   this.chatService.setStorage(this.storageArray);
+  //   this.newMessage = '';
+  // }
 
   sendMessage(): void {
+   let firstName = this.currentUser.firstName
+    console.log(firstName);
     this.chatService.sendMessage({
-      user: this.logedUser.firstName,
+      user: this.currentUser.firstName,
       room: this.roomId,
-      message: this.newMessage
+      message: this.messageText
     });
 
     this.storageArray = this.chatService.getStorage();
+
     const storeIndex = this.storageArray
-      .findIndex((storage: { roomId: any; }) => storage.roomId === this.roomId);
+      .findIndex((storage:any) => storage.roomId === this.roomId);
 
     if (storeIndex > -1) {
       this.storageArray[storeIndex].chats.push({
-        user: this.logedUser.firstName,
-        message: this.newMessage
+        user: this.currentUser.firstName,
+        message: this.messageText
       });
-    } else {
+    }
+    else
+    {
       const updateStorage = {
         roomId: this.roomId,
         chats: [{
-          user: this.logedUser.firstName,
-          message: this.newMessage
+          user: this.currentUser.firstName,
+          message: this.messageText
         }]
       };
 
       this.storageArray.push(updateStorage);
     }
-
+    console.log(this.messageArray);
     this.chatService.setStorage(this.storageArray);
-    this.newMessage = '';
+    this.messageText = '';
   }
-
-  // sendMessage(){
-  //   this.chatService.sendMessage(this.newMessage);
-  //   this.newMessage = '';
-  // }
 
   keyUp(event:any){
    let element;
    if(event.code == null){
      return;
    }else{
-     this.sendMessage()
+     // this.sendMessage(selectedUser.id,selectedUser.message)
     element = event.target.nextElementSibling;
       element.focus();
    }

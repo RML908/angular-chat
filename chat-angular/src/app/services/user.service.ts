@@ -7,6 +7,7 @@ import {BehaviorSubject, Observable, tap} from "rxjs";
 import {map} from  "rxjs/operators"
 import {User} from "stream-chat";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,8 +24,10 @@ export class UserService {
 
 
   constructor(private http: HttpClient,
-              private router: Router
-  ) {
+              private router: Router,
+  )
+  {
+    const currentUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<Member |null>
     (JSON.parse(localStorage.getItem('currentUser')!));
     this.currentUser = this.currentUserSubject.asObservable();
@@ -34,23 +37,27 @@ export class UserService {
     return this.currentUserSubject.value
  }
 
-  login(firstName:string, lastName:string): Observable<any>{
-    return this.http.post<any>(this.usersUrl,{firstName,lastName})
-      .pipe(map(({res}) => {
-        let user: any = {
-          firstName: firstName,
-          lastName:  lastName,
-        };
-        localStorage.setItem('currentUser', JSON.stringify(user))
-          // @ts-ignore
-        this.currentUser = localStorage.getItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user)
-
-        return user;
-
-        })
-      );
-  }
+  // login(firstName:string, lastName:string): Observable<any>{
+  //   return this.http.post<any>(this.usersUrl,{firstName,lastName})
+  //     .pipe(map(({res}) => {
+  //       let user: any = {
+  //         firstName: firstName,
+  //         lastName:  lastName,
+  //
+  //       };
+  //       this.socketService.setupSocketConnection(firstName,lastName)
+  //       localStorage.setItem('currentUser', JSON.stringify(user))
+  //
+  //       // @ts-ignore
+  //       this.currentUser = localStorage.getItem('currentUser', JSON.stringify(user));
+  //       console.log(this.currentUser);
+  //       this.currentUserSubject.next(user)
+  //
+  //       return user;
+  //
+  //       })
+  //     );
+  // }
 
    usersignUp(data:any){
     this.http.post('./assets/db.json/users',data,{observe:'response'})
@@ -70,12 +77,13 @@ export class UserService {
       tap(_ => console.log(`id==${id}`))
     );
   }
+
   getUsers(): Observable<any>{
     return this.http.get<any>(this.usersUrl)
       .pipe(
-        tap(result => console.log(result))
+        tap(result => localStorage.setItem('result', JSON.stringify(result)))
       )
-      }
+  }
 }
   // userLogin(data:Member){
   //   this.http.get<Member>(`./assets/data.ts/?firstName=${data.firstName}&lastName=${data.lastName}`,

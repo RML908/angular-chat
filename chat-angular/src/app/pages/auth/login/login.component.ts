@@ -1,12 +1,11 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Member} from "../../../models/member";
 import {UserService} from "../../../services/user.service";
 import {Router} from "@angular/router";
 import  {users, channels} from "../../../../assets/data" ;
-import {first} from "rxjs/operators";
 import {Observable, Subscription} from "rxjs";
-import {User} from "stream-chat";
+
 
 @Component({
   selector: 'app-login',
@@ -17,51 +16,50 @@ export class LoginComponent implements OnInit, OnDestroy {
 
    loginForm!: FormGroup;
    users:any;
-   currentUser: any;
+   // currentUser: any;
    firstName?:string;
    subscriptions:  Subscription[] = [];
    loading:boolean = false;
-   user:any
+   @Output() currentUserEmit = new EventEmitter();
+   user: typeof users;
    userId:any;
   constructor(
               private fb: FormBuilder,
               private userService: UserService,
               private route:Router
               ) {
+    this.user = users
   }
   ngOnInit(): void {
-     this.userId = this.userService.currentUser.subscribe(data =>{
-       console.log(data?.id);
-     })
     this.loginForm = this.fb.group({
       firstName:['', Validators.required],
       lastName:['', Validators.required]
     })
-    this.getUsers()
+    // this.getUsers()
 
   }
-    getUsers(){
-    this.userService.getUsers()
-      .subscribe(users =>
-        this.users = users)
-    }
+    // getUsers(){
+    // this.userService.getUsers()
+    //   .subscribe(users =>
+    //     this.users = users)
+    //   console.log(this.users);
+    // }
+
    get form(){return this.loginForm.controls}
 
   onSubmit(){
     if(this.loginForm.valid){
       this.loading = true
     const {firstName, lastName} = this.loginForm.value
-    this.subscriptions.push(
-      this.userService.login(firstName, lastName,).subscribe(success => {
-      if(success){
-        let id =
-        this.route.navigate(['/chat'])
-      }else {
-        console.warn("failed to login")
+      let currentUser = this.user.find((user: { firstName: string; }) => user.firstName == firstName.toString())
+      this.user = this.user.filter((user: { firstName: string; }) => user.firstName !== firstName.toString())
+      if(currentUser){
+        this.route.navigate(['/chat'],{state:{data:currentUser}})
+
       }
-      })
-    )
-  }
+      else {console.warn(`The firstName:${firstName}: didn't match${currentUser}`)
+        }
+    }
   }
 
   ngOnDestroy(){

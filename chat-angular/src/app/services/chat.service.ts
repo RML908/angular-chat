@@ -1,53 +1,41 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, concatMap, filter, Observable, take} from "rxjs";
+import {BehaviorSubject,Observable} from "rxjs";
+
 import {io, Socket} from "socket.io-client";
-import {UserService} from "./user.service";
-import {Member} from "../models/member";
+
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ChatService {
+
   socket: Socket;
   url = 'http://localhost:3000';
+  currentUset:any
   message$: BehaviorSubject<string> = new BehaviorSubject('');
 
-  constructor(private userService:UserService) {
-    this.socket = io(this.url, {transports: ['websocket', 'polling', 'flashsocket']});
-  }
-    joinRoom(data:any): void{
-    this.socket.emit('join', data);
-    console.log("Room", data)
+  cureentUser:any;
+
+  constructor(
+  )
+    {
+    this.socket = io('http://localhost:3000', {transports:['websocket', 'polling', 'flashsokcet']});
+
     }
 
-  //   sendMessage(message: any){
-  //   return this.userService.currentUser.pipe(
-  //     filter((user) => !!user),
-  //     take(1),
-  //     concatMap((user) => {
-  //       const data ={
-  //         user: user!.firstName,
-  //         message,
-  //       };
-  //       return [`user:${user!.id}`]
-  //     })
-  //   )
-  //   this.socket.emit('message', message);
-  // }
-  sendMessage(message: any){
-    this.socket.emit(message)
+
+   sendMessage(data:any):void{
+    this.socket.emit('join',data);
   }
-    getNewMessage  ():Observable<any>  {
-      return new Observable<{ user: string, message: string }>(observer => {
-        this.socket.on('new message', (data) => {
-          observer.next(data);
-        });
-        return () =>{
-          this.socket.disconnect();
-        }
-      });
-  };
-    getStorage(){
+
+   joinRoom(data:any): void {
+    this.socket.emit('join', data);
+    console.log("Room", data)
+  }
+
+
+   getStorage(){
       const storage: any = localStorage.getItem('chats');
       return storage ? JSON.parse(storage) : [];
     }
@@ -55,4 +43,16 @@ export class ChatService {
     setStorage(data: any){
       localStorage.setItem('chats', JSON.stringify(data))
     }
+
+    getNewMessage(): Observable<any> {
+    return new Observable<{ user: string, message: string }>(observer => {
+      this.socket.on('new message', (data:any) => {
+        console.log(data)
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      }
+    });
+  }
 }
