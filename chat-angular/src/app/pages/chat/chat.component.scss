@@ -4,8 +4,7 @@ body {
 }
 
 .container-fluid {
-    padding: 50px 200px;
-    overflow: hidden;
+    height: calc(100vh - 80px) !important;
 }
 
 .user-list-card {
@@ -114,10 +113,8 @@ body {
 }
 
 .chatroom-list {
-    border-right: 2px solid $light-grey;
     overflow-y: hidden;
     .chatroom-list-item {
-        border-bottom: 1px solid $light-grey;
         padding: 1em;
     }
 }
