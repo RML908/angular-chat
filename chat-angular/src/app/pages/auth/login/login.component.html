@@ -1,41 +1,31 @@
-  <!-- Emmet Command used: div.container.d-flex.justify-content-center.align-items-center -->
+<!-- Emmet Command used: div.container.d-flex.justify-content-center.align-items-center -->
 <div class="container-wrapper container d-flex justify-content-center align-items-center">
-  <div class="form-wrapper text-center">
-    <h2 class="text-center">Login</h2>
-    <form [formGroup]="loginForm" (submit)="onSubmit()" novalidate>
+    <div class="form-wrapper text-center">
+        <h2 class="text-center">Login</h2>
+        <form [formGroup]="loginForm" (submit)="onSubmit()" novalidate>
 
-      <div class="form-group">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Username</span>
-          </div>
-          <input
-            id="email-input"
-            type="firstName"
-            class="form-control"
-            placeholder="Enter first name"
-            formControlName="firstName">
-        </div>
-      </div>
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">FirstName</span>
+                    </div>
+                    <input id="name-input" type="firstName" class="form-control" placeholder="Enter first name" formControlName="firstName">
+                </div>
+            </div>
 
-      <div class="form-group">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon-1">Lastname</span>
-          </div>
-          <input
-            type="password"
-            class="form-control"
-            id="lastName-input"
-            placeholder="Enter last name"
-            formControlName="lastName">
-        </div>
-      </div>
+            <div class="form-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon-1">Lastname</span>
+                    </div>
+                    <input type="t" class="form-control" id="lastName-input" placeholder="Enter last name" formControlName="lastName">
+                </div>
+            </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Submit</button>
-    </form>
-    <small>
+            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Submit</button>
+        </form>
+        <small>
       <a routerLink="/signup">Need an Account?</a>
     </small>
-  </div>
+    </div>
 </div>

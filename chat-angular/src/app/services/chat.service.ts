@@ -20,18 +20,17 @@ export class ChatService {
   constructor(
   )
     {
-    this.socket = io('http://localhost:3000', {transports:['websocket', 'polling', 'flashsokcet']});
+    this.socket = io(this.url, {transports:['websocket', 'polling', 'flashsokcet']});
 
     }
 
 
    sendMessage(data:any):void{
-    this.socket.emit('join',data);
+    this.socket.emit('message',data);
   }
 
    joinRoom(data:any): void {
     this.socket.emit('join', data);
-    console.log("Room", data)
   }
 
 
@@ -44,10 +43,9 @@ export class ChatService {
       localStorage.setItem('chats', JSON.stringify(data))
     }
 
-    getNewMessage(): Observable<any> {
+    getMessage(): Observable<any> {
     return new Observable<{ user: string, message: string }>(observer => {
       this.socket.on('new message', (data:any) => {
-        console.log(data)
         observer.next(data);
       });
       return () => {

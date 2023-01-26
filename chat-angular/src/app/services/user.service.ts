@@ -1,16 +1,13 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {users, channels}  from '../../assets/data'
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {Member} from "../models/member";
 import {BehaviorSubject, Observable, tap} from "rxjs";
-import {map} from  "rxjs/operators"
-import {User} from "stream-chat";
 
 
 @Injectable({
   providedIn: 'root'
 })
+
 
 export class UserService {
 
@@ -23,9 +20,7 @@ export class UserService {
   currentUser: Observable<Member | null>;
 
 
-  constructor(private http: HttpClient,
-              private router: Router,
-  )
+  constructor()
   {
     const currentUser = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<Member |null>
@@ -33,10 +28,16 @@ export class UserService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
+
+
  get userValue(): any {
     return this.currentUserSubject.value
  }
 
+
+
+
+      // TODO: This comment for int future works for login and serve the socket engie
   // login(firstName:string, lastName:string): Observable<any>{
   //   return this.http.post<any>(this.usersUrl,{firstName,lastName})
   //     .pipe(map(({res}) => {
@@ -59,50 +60,38 @@ export class UserService {
   //     );
   // }
 
-   usersignUp(data:any){
-    this.http.post('./assets/db.json/users',data,{observe:'response'})
-      .subscribe((result) =>{
-        if(result){
-          localStorage.setItem('member', JSON.stringify(result.body))
-          this.router.navigate(['/'])
-        }
-      })
-   }
+  //  usersignUp(data:any){
+  //   this.http.post('./assets/db.json/users',data,{observe:'response'})
+  //     .subscribe((result) =>{
+  //       if(result){
+  //         localStorage.setItem('member', JSON.stringify(result.body))
+  //         this.router.navigate(['/'])
+  //       }
+  //     })
+  //  }
 
 
 
-  getById(id:any):Observable<Member> {
-    const url =`${this.usersUrl}/${id}`
-    return this.http.get<Member>(url).pipe(
-      tap(_ => console.log(`id==${id}`))
-    );
-  }
+  // getById(id:any):Observable<Member> {
+  //   const url =`${this.usersUrl}/${id}`
+  //   return this.http.get<Member>(url).pipe(
+  //   tap(_ => console.log(`id==${id}`))
+  //   );
+  // }
 
-  getUsers(): Observable<any>{
-    return this.http.get<any>(this.usersUrl)
-      .pipe(
-        tap(result => localStorage.setItem('result', JSON.stringify(result)))
-      )
-  }
+// getUsers(): Observable<any>{
+//  return this.http.get<any>(this.usersUrl)
+// .pipe(
+//  tap(result => localStorage.setItem('result', JSON.stringify(result)))
+//   )
+//   }
+// }
+
+//  userAuthReload(){
+//   if(localStorage.getItem('currentUser')){
+//     this.router.navigate(['/'])
+//   }
+// }
+
 }
-  // userLogin(data:Member){
-  //   this.http.get<Member>(`./assets/data.ts/?firstName=${data.firstName}&lastName=${data.lastName}`,
-  //     {observe:"response"}
-  //   ).subscribe((result) =>{
-  //     if(result && result.body){
-  //       localStorage.setItem('user', JSON.stringify(result.body));
-  //       this.router.navigate(['/chat'])
-  //       this.invalidUserAuth.emit(false)
-  //     }else {
-  //       this.invalidUserAuth.emit(true)
-  //     }
-  //   })
-  // }
-
-  // userAuthReload(){
-  //   if(localStorage.getItem('user')){
-  //     this.router.navigate(['/'])
-  //   }
-  // }
-
 
