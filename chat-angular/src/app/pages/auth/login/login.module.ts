@@ -14,8 +14,6 @@ import {SharedModule} from "../../../shared-components/shared.module";
     CommonModule,
     LoginRoutingModule,
     ReactiveFormsModule,
-    SharedModule,
-
   ],
   exports: [
     LoginComponent

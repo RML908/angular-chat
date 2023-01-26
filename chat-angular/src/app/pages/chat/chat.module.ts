@@ -4,22 +4,27 @@ import {ChatRoutingModule} from "./chat-routing.module";
 import {ChatComponent} from "./chat.component";
 import {SharedModule} from "../../shared-components/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { NavbarComponent } from "../../shared-components/navbar/navbar.component";
 
 
 
 @NgModule({
-  declarations: [
-    ChatComponent
-  ],
-  imports: [
-    CommonModule,
-    ChatRoutingModule,
-    SharedModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
-  exports: [
-    ChatComponent
-  ]
+    declarations: [
+        ChatComponent,
+
+
+
+    ],
+    exports: [
+        ChatComponent,
+    ],
+    imports: [
+        CommonModule,
+        ChatRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule
+
+    ]
 })
 export class ChatModule { }

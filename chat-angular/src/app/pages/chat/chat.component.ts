@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {ChatService} from "../../services/chat.service";
 import {UserService} from "../../services/user.service";
-import {Member} from "../../models/member";
+import {ActivatedRoute} from "@angular/router";
+import { users}  from 'src/assets/data';
 
 @Component({
   selector: 'app-chat',
@@ -9,106 +10,118 @@ import {Member} from "../../models/member";
   styleUrls: ['./chat.component.scss']
 })
 
-export class ChatComponent implements OnInit {
-  roomId?: any | string ;
-  newMessage: string[]=[];
-  messageArray:{user: string, message: string}[] = []
-  storageArray:any[''] = '';
-  users: Member[] =[];
+export class ChatComponent implements OnInit, AfterViewChecked  {
+  @ViewChild('scrollMe')  myScrollContainer?: ElementRef<any>;
+  roomId:string = '';
+  storageArray:any[] = [];
+  users$: any ;
+  currentUser: any ;
+  selectedUser:any;
 
-  showScreen = false;
-  currentUser?:any
-  selectedUser?:any | string;
 
+  messageArray: { user:string, message:string }[] = [];
+  messageText: string = '';
 
 
   constructor( private chatService: ChatService,
                private userService: UserService,
-               ) {}
+               private route: ActivatedRoute,
+               )
+  {
+  }
+
 
   ngOnInit(): void {
-    this.chatService.getNewMessage().subscribe(
+    this.currentUser = history.state.data
+    this.getUsersFiltet()
+
+    this.chatService.getMessage().subscribe(
       (
       data:{
       user:string,
       room: string,
       message: string
       }) => {
+        if(this.roomId){
         setTimeout(() => {
           this.storageArray = this.chatService.getStorage();
           const storeIndex =  this.storageArray
             .findIndex((storage:any) => storage.roomId == this.roomId);
           this.messageArray = this.storageArray[storeIndex].chats;
         },500)
-      // this.messageList.push(message);
-
+        }
       });
-    this.getUsers()
+    this.getUsername()
+    this.scrollToBottom();
   }
 
-  getUsers(){
-    this.userService.getUsers().subscribe(data =>{
-      this.users = data[0]
-    })
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+}
 
-
+  getUsername() {
+    return JSON.parse(localStorage.getItem('currentUser')!);
   }
 
-  selectUserHandler(firstName:string): void{
-    this.selectedUser = this.users.find(user =>
-      user.firstName  == firstName);
-    this.roomId = this.selectedUser?.roomId[this.currentUser.firstName];
-    console.log(this.roomId);
+  selectUserHandler(id:any){
+    this.selectedUser = this.users$.filter((user:any) => user.id === id);
+
+    this.roomId = this.selectedUser[0]?.roomId[this.currentUser.id].toString();
     this.messageArray = [];
 
     this.storageArray = this.chatService.getStorage();
     const storeIndex = this.storageArray
       .findIndex((storage:any) => storage.roomId === this.roomId);
+
     if(storeIndex > -1) {
       this.messageArray = this.storageArray[storeIndex].chats;
     }
-    this.join(this.currentUser.id, this.roomId);
+    this.join(this.currentUser.firstName, this.roomId);
   }
 
-  join(username: string, roomId: string): void {
-    this.chatService.joinRoom({user: username, room: roomId})
+  join(username:string, roomId:any ):void{
+    this.chatService.joinRoom({user:username , room:roomId});
   }
+
   sendMessage(): void {
     this.chatService.sendMessage({
       user: this.currentUser.firstName,
       room: this.roomId,
-      message: this.newMessage
+      message: this.messageText
     });
 
     this.storageArray = this.chatService.getStorage();
+
     const storeIndex = this.storageArray
-      .findIndex((storage: { roomId: any; }) => storage.roomId === this.roomId);
+      .findIndex((storage:any) => storage.roomId === this.roomId);
 
     if (storeIndex > -1) {
       this.storageArray[storeIndex].chats.push({
         user: this.currentUser.firstName,
-        message: this.newMessage
+        message: this.messageText
       });
-    } else {
+    }
+    else
+    {
       const updateStorage = {
         roomId: this.roomId,
         chats: [{
           user: this.currentUser.firstName,
-          message: this.newMessage
+          message: this.messageText
         }]
       };
 
       this.storageArray.push(updateStorage);
     }
-
     this.chatService.setStorage(this.storageArray);
-    this.newMessage = [''];
+    this.messageText = '';
   }
-  // sendMessage(){
-  //   this.chatService.sendMessage(this.newMessage);
-  //   this.newMessage = '';
-  // }
 
+  scrollToBottom(): void {
+    try {
+        this.myScrollContainer!.nativeElement.scrollTop = this.myScrollContainer?.nativeElement.scrollHeight;
+    } catch(err) { }
+}
   keyUp(event:any){
    let element;
    if(event.code == null){
@@ -116,7 +129,14 @@ export class ChatComponent implements OnInit {
    }else{
      this.sendMessage()
     element = event.target.nextElementSibling;
-      element.focus();
+
    }
+
   }
+  getUsersFiltet(){
+    this.users$ = users.filter((user:any) => user.id !== this.currentUser.id)
+  }
+
+
  }
+

@@ -2,16 +2,18 @@
 @import 'global-styles/variables';
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-//body {
-//  color: $secondary;
-//}
+
+body {
+    overflow: hidden;
+    background-color:$green !important;
+
+ @media only screen and(max-width:1024px){
+   overflow: auto;
+
+ }
+}
 
 .container-wrapper {
-// Important because boostrap has its own property of height for container
-height: calc(100vh - 80px) !important;
+    // Important because boostrap has its own property of height for container
+    height: calc(100vh - 80px) !important;
 }
-
-.navbar {
-  height: 80px;
-}
-

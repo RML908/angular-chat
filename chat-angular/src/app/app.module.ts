@@ -7,7 +7,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared-components/shared.module";
 import {HttpClientInMemoryWebApiModule} from "angular-in-memory-web-api";
-import {InMemoryDataService} from "./services/in-memory-data.service";
+import { NavbarComponent } from './shared-components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -19,10 +19,7 @@ import {InMemoryDataService} from "./services/in-memory-data.service";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    SharedModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

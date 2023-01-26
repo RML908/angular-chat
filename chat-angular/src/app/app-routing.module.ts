@@ -11,7 +11,10 @@ const routes: Routes = [
   {
     path: 'chat', loadChildren:() => import('./pages/chat/chat.module')
       .then(m => m.ChatModule)
-  }
+  },
+  // {
+  //   path: 'navbar', loadChildren:() => import('./shared-components/shared.module')
+  // }
 ];
 
 @NgModule({
