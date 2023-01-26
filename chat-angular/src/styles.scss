@@ -1,11 +1,16 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
 @import 'global-styles/variables';
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-//body {
-//  color: $secondary;
-//}
+
+
 body {
-    background-color: #90b490 !important;
+    overflow: hidden;
+    background-color:$green !important;
+
+ @media only screen and(max-width:1024px){
+   overflow: auto;
+
+ }
 }
 
 .container-wrapper {
